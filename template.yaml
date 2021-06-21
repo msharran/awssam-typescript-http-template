@@ -9,12 +9,20 @@ Description: >
 Globals:
   Function:
     Timeout: 3
+    Environment:
+      Variables:
+        USERS_TABLE: !Ref TableName
+        USERS_TABLE_REGION: !Ref TableRegion
 
 Parameters:
   TableName:
     Type: String
     Default: "DevUsersTable"
     Description: Users Table
+  TableRegion:
+    Type: String
+    Default: "ap-south-1"
+    Description: Users Table Region
   StageName:
     Type: String
     Default: dev
@@ -50,9 +58,6 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref TableName
-      Environment:
-        Variables:
-          USERS_TABLE: !Ref TableName
       Events:
         Api:
           Type: HttpApi
@@ -70,9 +75,6 @@ Resources:
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref TableName
-      Environment:
-        Variables:
-          USERS_TABLE: !Ref TableName
       Events:
         Api:
           Type: HttpApi
