@@ -5,8 +5,11 @@ exports.lambdaHandler = async (event) => {
     try {
         //TODO: Construct valid body and save in DynamoDB
         let seller = JSON.parse(event.body)
-        seller.PK = "SELLER#" + ULID.ulid()
-        seller.SK = "#SELLER#" + ULID.ulid()
+        seller = {
+            ...seller,
+            PK: "SELLER#" + ULID.ulid(),
+            SK: "#PROFILE#" + ULID.ulid(),
+        }
 
         await store.putItem(seller)
         return {
