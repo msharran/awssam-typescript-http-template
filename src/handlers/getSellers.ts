@@ -2,11 +2,11 @@ import {
     APIGatewayProxyEvent,
     APIGatewayProxyResult
 } from "aws-lambda";
-import * as store from "../../helpers/store"
+import { docClient } from "../helpers/dynamodbDocClient"
 
 export const lambdaHandler = async (_: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     try {
-        const sellers = (await store.scan()).Items
+        const sellers = (await getAllSellers()).Items
         return {
             'statusCode': 200,
             'body': JSON.stringify(sellers)
@@ -19,3 +19,10 @@ export const lambdaHandler = async (_: APIGatewayProxyEvent): Promise<APIGateway
         };
     }
 }
+
+export const getAllSellers = async () => {
+    let params = {
+        TableName: process.env.TABLE_NAME,
+    }
+    return docClient.scan(params).promise()
+};

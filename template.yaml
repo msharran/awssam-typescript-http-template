@@ -33,17 +33,17 @@ Resources:
     Type: AWS::Serverless::HttpApi
     Properties:
       StageName: !Ref StageName
-      # Auth:
-      #   DefaultAuthorizer: LambdaRequestAuthorizer
-      #   Authorizers:
-      #     LambdaRequestAuthorizer:
-      #       FunctionArn: !GetAtt AuthorizerFunction.Arn
-      #       FunctionInvokeRole: !GetAtt AuthorizerFunctionRole.Arn
-      #       Identity:
-      #         Headers:
-      #           - Authorization
-      #       AuthorizerPayloadFormatVersion: 2.0
-      #       EnableSimpleResponses: true
+      Auth:
+        DefaultAuthorizer: MyLambdaRequestAuthorizer
+        Authorizers:
+          MyLambdaRequestAuthorizer:
+            FunctionArn: !GetAtt MyAuthFunction.Arn
+            Identity:
+              Headers:
+                - Authorization
+              ReauthorizeEvery: 120
+            AuthorizerPayloadFormatVersion: 2.0
+            EnableSimpleResponses: true
       Description: An Amazon API Gateway HTTP API and an AWS Lambda function.
       AccessLogSettings:
         DestinationArn: !GetAtt AccessLogs.Arn
@@ -60,18 +60,18 @@ Resources:
   AccessLogs:
     Type: AWS::Logs::LogGroup
 
-  AuthorizerFunction:
+  MyAuthFunction:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: src/handlers/autherizer
-      Handler: app.lambdaHandler
+      CodeUri: src/handlers
+      Handler: authorizer.lambdaHandler
       Runtime: nodejs12.x
 
   CreateSellerFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: src/handlers/createSeller
-      Handler: app.lambdaHandler
+      CodeUri: src/handlers
+      Handler: createSeller.lambdaHandler
       Runtime: nodejs12.x
       Policies:
         - DynamoDBCrudPolicy:
@@ -87,8 +87,8 @@ Resources:
   GetSellersFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: src/handlers/getSellers
-      Handler: app.lambdaHandler
+      CodeUri: src/handlers
+      Handler: getSellers.lambdaHandler
       Runtime: nodejs12.x
       Policies:
         - DynamoDBCrudPolicy:

@@ -10,6 +10,7 @@ watch:
 	npm run watch
 
 serve:
+	docker compose up -d
 	sam local start-api -p 4000
 
 deploy: clean build

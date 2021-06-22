@@ -3,7 +3,7 @@ import {
     APIGatewayProxyResult
 } from "aws-lambda";
 import { ulid } from "ulid"
-import * as store from "../../helpers/store"
+import { docClient } from "../helpers/dynamodbDocClient"
 
 export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGatewayProxyResult> => {
     try {
@@ -15,8 +15,7 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
             SK: "#PROFILE#" + ulid(),
         }
 
-        await store.putItem(seller)
-        console.log(":::::::::::::::::::end")
+        await createSeller(seller)
         return {
             'statusCode': 201,
             'body': JSON.stringify(seller)
@@ -29,3 +28,12 @@ export const lambdaHandler = async (event: APIGatewayProxyEvent): Promise<APIGat
         };
     }
 }
+
+export const createSeller = async (item: {}) => {
+    let params = {
+        TableName: process.env.TABLE_NAME,
+        Item: item,
+    }
+    console.log("Adding new item:", JSON.stringify(params));
+    return docClient.put(params).promise()
+};

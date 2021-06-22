@@ -10,6 +10,10 @@ export const lambdaHandler = async (event: any): Promise<any> => {
         }
     };
 
+    console.error("::::::::::::::::::::::::::: errorrrrrrrrrrrrrr");
+    console.error(":::::::::::::::::::::::::::", JSON.stringify(event.body));
+
+
     if (event.headers.Authorization === "secretToken") {
         response = {
             "isAuthorized": true,
