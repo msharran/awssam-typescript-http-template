@@ -1,9 +1,10 @@
-var AWS = require("aws-sdk");
+import { config, DynamoDB } from "aws-sdk"
 
-AWS.config.update({ region: process.env.TABLE_REGION });
+config.update({ region: process.env.TABLE_REGION });
 
-var docClient = new AWS.DynamoDB.DocumentClient();
-exports.putItem = async (item) => {
+var docClient = new DynamoDB.DocumentClient();
+
+export const putItem = async (item: {}): Promise<any> => {
     let params = {
         TableName: process.env.TABLE_NAME,
         Item: item,

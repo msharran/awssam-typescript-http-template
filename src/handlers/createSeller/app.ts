@@ -1,18 +1,25 @@
-const store = require('./helpers/store')
-const ULID = require('ulid')
-exports.lambdaHandler = async (event) => {
+import {
+    APIGatewayProxyEvent,
+    APIGatewayProxyResult
+} from "aws-lambda";
+import { ulid } from "ulid"
+import * as store from "../../helpers/store"
+
+export const lambdaHandler = async (
+    event: APIGatewayProxyEvent
+): Promise<APIGatewayProxyResult> => {
     try {
         //TODO: Construct valid body and save in DynamoDB
         let seller = JSON.parse(event.body)
         seller = {
             ...seller,
-            PK: "SELLER#" + ULID.ulid(),
-            SK: "#PROFILE#" + ULID.ulid(),
+            PK: "SELLER#" + ulid(),
+            SK: "#PROFILE#" + ulid(),
         }
 
         await store.putItem(seller)
         return {
-            'statusCode': 200,
+            'statusCode': 201,
             'body': JSON.stringify(seller)
         };
     } catch (err) {
@@ -22,4 +29,4 @@ exports.lambdaHandler = async (event) => {
             'body': JSON.stringify({ error: err.message })
         };
     }
-};
+}

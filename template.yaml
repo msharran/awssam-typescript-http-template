@@ -49,29 +49,12 @@ Resources:
   AccessLogs:
     Type: AWS::Logs::LogGroup
 
-  GetSellerFunction:
-    Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
-    Properties:
-      CodeUri: handlers/
-      Handler: getSeller.lambdaHandler
-      Runtime: nodejs14.x
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref TableName
-      Events:
-        Api:
-          Type: HttpApi
-          Properties:
-            ApiId: !Ref HttpApi
-            Path: /{id}
-            Method: GET
-
   CreateSellerFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: handlers/
-      Handler: createSeller.lambdaHandler
-      Runtime: nodejs14.x
+      CodeUri: src/handlers/createSeller
+      Handler: app.lambdaHandler
+      Runtime: nodejs12.x
       Policies:
         - DynamoDBCrudPolicy:
             TableName: !Ref TableName
