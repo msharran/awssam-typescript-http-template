@@ -1,4 +1,4 @@
-# Elevate Starter Service
+# Elevate Service Starter Kit
 
 ## Use the npm to build and test locally
 
