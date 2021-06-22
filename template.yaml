@@ -11,8 +11,8 @@ Globals:
     Timeout: 3
     Environment:
       Variables:
-        USERS_TABLE: !Ref TableName
-        USERS_TABLE_REGION: !Ref TableRegion
+        TABLE_NAME: !Ref TableName
+        TABLE_REGION: !Ref TableRegion
 
 Parameters:
   TableName:

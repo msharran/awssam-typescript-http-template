@@ -1,11 +1,11 @@
 var AWS = require("aws-sdk");
 
-AWS.config.update({ region: process.env.USERS_TABLE_REGION });
+AWS.config.update({ region: process.env.TABLE_REGION });
 
 var docClient = new AWS.DynamoDB.DocumentClient();
 exports.putItem = async (item) => {
     let params = {
-        TableName: process.env.USERS_TABLE,
+        TableName: process.env.TABLE_NAME,
         Item: item,
     }
     console.log("Adding new item:", JSON.stringify(params));

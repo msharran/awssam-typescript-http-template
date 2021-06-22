@@ -1,6 +1,5 @@
 const store = require('./helpers/store')
 const ULID = require('ulid')
-let response;
 exports.lambdaHandler = async (event) => {
     try {
         //TODO: Construct valid body and save in DynamoDB
