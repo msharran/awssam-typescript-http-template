@@ -8,8 +8,7 @@
     "clean": "rm -rf .aws-sam .vscode",
     "prebuild": "rm -rf .aws-sam .vscode",
     "prewatch": "rm -rf .aws-sam .vscode",
-    "watch": "webpack-cli -w",
-    "serve": "sam local start-api"
+    "watch": "webpack-cli -w"
   },
   "repository": {
     "type": "git",

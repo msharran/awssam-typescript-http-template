@@ -1,16 +1,29 @@
-import { config, DynamoDB } from "aws-sdk"
+import * as AWS from "aws-sdk"
+import { DocumentClient } from "aws-sdk/clients/dynamodb";
 
-config.update({ region: process.env.TABLE_REGION });
+//For linux use http://localhost:8000
+AWS.config.update({
+    region: "us-east-1",
+    dynamodb: {
+        endpoint: process.env.STAGE === "dev" ? "http://docker.for.mac.localhost:8000" : undefined
+    }
+});
 
-var docClient = new DynamoDB.DocumentClient();
+var docClient = new DocumentClient();
 
-export const putItem = async (item: {}): Promise<any> => {
+export const putItem = async (item: {}) => {
     let params = {
         TableName: process.env.TABLE_NAME,
         Item: item,
     }
     console.log("Adding new item:", JSON.stringify(params));
-    const data = docClient.put(params).promise()
-    console.log("Added item:", JSON.stringify(data));
-    return data
+    return docClient.put(params).promise()
+};
+
+export const scan = async () => {
+    let params = {
+        TableName: process.env.TABLE_NAME,
+    }
+    console.log("Adding new item:", JSON.stringify(params));
+    return docClient.scan(params).promise()
 };

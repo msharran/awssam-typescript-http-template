@@ -5,20 +5,14 @@
 Watchs for build changes and runs build automatically
 
 ```bash
-npm run-script watch
-```
-
-Start the api server locally
-
-```bash
-npm run-script serve
+make watch
 ```
 
 The SAM CLI can also emulate your application's API. Use the `sam local start-api` to run the API locally on port 3000.
 
 ```bash
-elevate-user-service$ sam local start-api
-elevate-user-service$ curl http://localhost:3000/
+make serve
+curl http://localhost:4000/
 ```
 ## Fetch, tail, and filter Lambda function logs
 
@@ -27,7 +21,7 @@ To simplify troubleshooting, SAM CLI has a command called `sam logs`. `sam logs`
 `NOTE`: This command works for all AWS Lambda functions; not just the ones you deploy using SAM.
 
 ```bash
-elevate-user-service$ sam logs -n HelloWorldFunction --stack-name elevate-user-service --tail
+sam logs -n HelloWorldFunction --stack-name elevate-user-service --tail
 ```
 
 You can find more information and examples about filtering Lambda function logs in the [SAM CLI Documentation](https://docs.aws.amazon.com/serverless-application-model/latest/developerguide/serverless-sam-cli-logging.html).
