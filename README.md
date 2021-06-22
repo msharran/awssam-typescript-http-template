@@ -1,4 +1,4 @@
-# Elevate User Service
+# Elevate Starter Service
 
 ## Use the npm to build and test locally
 
